@@ -33,15 +33,13 @@ if [[ "$(uname -s)" == Darwin ]]; then
   bindkey '^[[1;4D' select-backward-word
   bindkey '^[[1;4C' select-forward-word
 
-  # Ctrl+V — paste (bracketed-paste)
-  # On macOS, Cmd+V is handled by the terminal and maps to quoted-insert, which
-  # is already wrapped in the functions file to support selection replacement.
-  # Ctrl+V has no default binding in ZLE on macOS (unlike Linux/WSL where it
-  # triggers quoted-insert). Without this binding, pressing Ctrl+V leaves ZLE
-  # waiting for a next keystroke and inserts its raw escape sequence instead of
-  # pasting. Binding it explicitly to bracketed-paste makes Ctrl+V and Cmd+V
-  # behave identically.
-  bindkey '^V' bracketed-paste
+  # Ctrl+V — paste from clipboard
+  # On macOS, Ctrl+V has no default ZLE binding (unlike Linux/WSL where it
+  # triggers quoted-insert). Without a binding it falls into literal-insert mode,
+  # causing the next keypress's raw escape sequence to be written into the buffer.
+  # _zsel-macos-paste-from-clipboard reads from pbpaste directly, making Ctrl+V
+  # behave consistently with Cmd+V.
+  bindkey '^V' _zsel-macos-paste-from-clipboard
 
 else
 
@@ -81,7 +79,9 @@ bindkey '^?'     backward-delete-or-selection    # Backspace
 
 # --- Clipboard (Ctrl+Y = copy, Ctrl+X = cut) --------------------------------
 # These bindings work on all platforms.
-# Paste (Ctrl+V / Cmd+V) is handled per-platform above (macOS) or via the
-# quoted-insert wrapper in the functions file (Linux/WSL).
+# Paste is handled per-platform: on macOS Ctrl+V is bound to
+# _zsel-macos-paste-from-clipboard above, and Cmd+V is handled by the terminal
+# via the quoted-insert wrapper in the functions file. On Linux/WSL, Ctrl+V
+# triggers quoted-insert by default, which is already wrapped in the functions file.
 bindkey '^Y'     copy-selection-to-clipboard
 bindkey '^X'     cut-selection-to-clipboard
