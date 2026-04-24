@@ -330,15 +330,33 @@ cut-selection-to-clipboard() {
 }
 zle -N cut-selection-to-clipboard
 
-# --- Paste wrappers (Ctrl+V) -------------------------------------------------
-# Terminals handle Ctrl+V paste in one of two ways depending on the platform:
-#   - bracketed-paste : Windows Terminal, most modern terminals — the terminal
-#                       intercepts Ctrl+V and injects clipboard content wrapped
-#                       in ESC[200~...ESC[201~ before ZLE sees the keystroke.
-#   - quoted-insert   : Older or minimal terminals — Ctrl+V is sent as ^V and
-#                       ZLE's quoted-insert reads the clipboard directly.
-# Both are aliased and wrapped identically so selection replacement works
-# regardless of which path the platform takes.
+# --- macOS: Paste from clipboard (Ctrl+V) ------------------------------------
+# On macOS, Ctrl+V has no default ZLE binding. Unlike Cmd+V (which is handled
+# by the terminal and injects clipboard content as bracketed paste), Ctrl+V
+# reaches ZLE directly but carries no clipboard data. This widget reads from
+# pbpaste explicitly so that Ctrl+V can paste like Cmd+V does.
+# This widget is defined on all platforms but only bound on macOS (see keybindings).
+
+_zsel-macos-paste-from-clipboard() {
+  (( REGION_ACTIVE )) && _zsel-delete-selection
+  local text
+  text=$(pbpaste)
+  LBUFFER+="$text"
+}
+zle -N _zsel-macos-paste-from-clipboard
+
+# --- Paste wrappers (Cmd+V on macOS, Ctrl+V on Linux/WSL) -------------------
+# Paste reaches ZLE via two different widgets depending on the platform:
+#   - bracketed-paste : The terminal intercepts the paste keystroke and injects
+#                       clipboard content wrapped in ESC[200~...ESC[201~ before
+#                       ZLE sees it. Used by Windows Terminal and most modern
+#                       terminals on Linux/WSL.
+#   - quoted-insert   : On macOS, Cmd+V is intercepted by the terminal and mapped
+#                       to quoted-insert, which ZLE then handles directly.
+# Both are wrapped identically here so selection replacement works regardless of
+# which path the platform takes.
+# NOTE: On macOS, Ctrl+V is handled separately via _zsel-macos-paste-from-clipboard
+# (see above) and does not go through either of these widgets.
 
 bracketed-paste() {
   (( REGION_ACTIVE )) && _zsel-delete-selection

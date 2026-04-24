@@ -12,34 +12,54 @@
 
 ## Key Bindings
 
-| Key                | Action                                 |
-|--------------------|----------------------------------------|
-| `Shift+Right`      | Select character forward               |
-| `Shift+Left`       | Select character backward              |
-| `Shift+Down`       | Select visual line down                |
-| `Shift+Up`         | Select visual line up                  |
-| `Ctrl+Shift+Right` | Select word forward                    |
-| `Ctrl+Shift+Left`  | Select word backward                   |
-| `Ctrl+Shift+Down`  | Select to buffer end                   |
-| `Ctrl+Shift+Up`    | Select to buffer start                 |
-| `Ctrl+Down`        | Jump to buffer end                     |
-| `Ctrl+Up`          | Jump to buffer start                   |
-| `Ctrl+Y`           | Copy selection to clipboard            |
-| `Ctrl+X`           | Cut selection to clipboard             |
-| `Ctrl+V`           | Paste (replaces selection if active)   |
-| `Delete`           | Delete selection or next character     |
-| `Backspace`        | Delete selection or previous character |
-| `Escape`           | Deselect                               |
+### All platforms
+
+| Key           | Action                                 |
+|---------------|----------------------------------------|
+| `Shift+Right` | Select character forward               |
+| `Shift+Left`  | Select character backward              |
+| `Shift+Down`  | Select visual line down                |
+| `Shift+Up`    | Select visual line up                  |
+| `Ctrl+Y`      | Copy selection to clipboard            |
+| `Ctrl+X`      | Cut selection to clipboard             |
+| `Delete`      | Delete selection or next character     |
+| `Backspace`   | Delete selection or previous character |
+| `Escape`      | Deselect                               |
+
+### Linux / WSL
+
+| Key                | Action                               |
+|--------------------|--------------------------------------|
+| `Ctrl+Shift+Right` | Select word forward                  |
+| `Ctrl+Shift+Left`  | Select word backward                 |
+| `Ctrl+Shift+Down`  | Select to buffer end                 |
+| `Ctrl+Shift+Up`    | Select to buffer start               |
+| `Ctrl+Down`        | Jump to buffer end                   |
+| `Ctrl+Up`          | Jump to buffer start                 |
+| `Ctrl+V`           | Paste (replaces selection if active) |
+
+### macOS
+
+| Key                  | Action                               |
+|----------------------|--------------------------------------|
+| `Option+Shift+Right` | Select word forward                  |
+| `Option+Shift+Left`  | Select word backward                 |
+| `Option+Shift+Down`  | Select to buffer end                 |
+| `Option+Shift+Up`    | Select to buffer start               |
+| `Ctrl+V`             | Paste (replaces selection if active) |
+
+> On macOS, jump-to-buffer-start/end using Option (`Ctrl+Up` / `Ctrl+Down` on Linux/WSL) are handled natively by the terminal and do not need to be bound by the plugin.
+> Cmd+V also works natively.
 
 ## Requirements
 
-| Platform | Clipboard tool        |Status      |
-|----------|-----------------------|------------|
-| WSL      | `clip.exe` (built-in) |✅ Tested   |
-| macOS    | `pbcopy` (built-in)   |⚠️ Untested |
-| Linux/X11 | `xclip`              |⚠️ Untested |
+| Platform  | Clipboard tool        | Status      |
+|-----------|-----------------------|-------------|
+| WSL       | `clip.exe` (built-in) | ✅ Tested   |
+| macOS     | `pbcopy` (built-in)   | ✅ Tested   |
+| Linux/X11 | `xclip`               | ⚠️ Untested |
 
-*macOS should be tested soon, please feel free to test it on any Linux platforms and report your findings!*
+*Please feel free to test on Linux/X11 and report your findings!*
 
 ## Installation
 
@@ -77,7 +97,7 @@ echo "source ~/path/to/zsh-editor-selection/zsh-editor-selection.plugin.zsh" >> 
 Escape codes for modifier+arrow keys vary by terminal. The defaults in this plugin target **Windows Terminal**, **iTerm2**, and most modern VTE-based terminals. If a binding doesn't work, find your terminal's code like so:
 
 1. Run `cat` and press Enter
-2. Press `Ctrl+V` then your key combo
+2. Press your key combo — on Linux/WSL you can also use `Ctrl+V` before the combo to reveal the raw sequence
 3. Note the printed escape sequence
 4. Override the binding in your `~/.zshrc` **after** sourcing the plugin:
 
@@ -89,9 +109,9 @@ bindkey 'YOUR_SEQUENCE' select-forward-char   # example
 
 ## Known Limitations
 
-**Visual line wrap highlight rendering** — when a selection spans a line that wraps at the terminal column boundary, ZLE's region highlight may not colour the wrapped portion correctly. The selection is functionally correct (deleting it removes the right characters). I am unsure I can solve this issue so feel free to send your suggestions!
+**Visual line wrap highlight rendering** — when a selection spans a line that wraps at the terminal column boundary, ZLE's region highlight may not colour the wrapped portion correctly in WSL. The selection is functionally correct (deleting it removes the right characters). I am unsure I can solve this issue so feel free to send your suggestions!
 
-**Ctrl+C/Ctrl+Shift+C** — on most terminals these keystrokes are intercepted by the terminal before reaching ZLE. `Ctrl+Y` is provided as the copy keybind instead. If your terminal does pass `Ctrl+C/Ctrl+Shift+C` through you can change the binding to your liking following the method described in the [Changing key bindings](#changing-key-bindings) section.
+**Cmd+C / Cmd+X / Cmd+V on macOS** — the `Cmd` key is intercepted by the OS and terminal before reaching ZLE, so these keystrokes cannot be bound by the plugin. `Ctrl+Y` (copy), `Ctrl+X` (cut), and `Ctrl+V` (paste) are provided as alternatives and work on all platforms. `Cmd+V` paste still works as the terminal maps it to ZLE's `quoted-insert`.
 
 ## Closing remarks
 
