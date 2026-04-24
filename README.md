@@ -52,10 +52,10 @@
 | `Option+Shift+Left`  | Select word backward                 |
 | `Option+Shift+Down`  | Select to buffer end                 |
 | `Option+Shift+Up`    | Select to buffer start               |
+| `Option+Down`        | Jump to buffer end                   |
+| `Option+Up`          | Jump to buffer start                 |
+| `Cmd+V`              | Paste (replaces selection if active) |
 | `Ctrl+V`             | Paste (replaces selection if active) |
-
-> On macOS, jump-to-buffer-start/end using Option (`Ctrl+Up` / `Ctrl+Down` on Linux/WSL) are handled natively by the terminal and do not need to be bound by the plugin.
-> Cmd+V also works natively.
 
 ## Requirements
 
