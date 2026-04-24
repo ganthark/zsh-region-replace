@@ -1,5 +1,11 @@
 # zsh-editor-selection
 
+> [!IMPORTANT]
+> Please take a look at [zsh-edit-select](https://github.com/Michael-Matta1/zsh-edit-select)!  
+> It is a more fully-featured alternative with undo/redo, mouse integration, advanced clipboard
+> agents, and an interactive config wizard.
+> Check it out first if you need a complete text-editor experience in your shell!
+
 **A Zsh plugin that brings familiar text-editor selection behaviour to the Zsh Line Editor.**
 
 - 🔡 **Select** by character, word, or visual line using Shift-modified keys
