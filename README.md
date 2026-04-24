@@ -6,6 +6,8 @@
 > agents, and an interactive config wizard.
 > Check it out first if you need a complete text-editor experience in your shell!
 
+> Repository name changed from **zsh-editor-selection** to **zsh-region-replace** to avoid confusion with [zsh-edit-select](https://github.com/Michael-Matta1/zsh-edit-select).  
+
 **A Zsh plugin that brings familiar text-editor selection behaviour to the Zsh Line Editor.**
 
 - 🔡 **Select** by character, word, or visual line using Shift-modified keys
