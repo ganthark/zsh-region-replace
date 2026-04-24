@@ -29,6 +29,10 @@ if [[ "$(uname -s)" == Darwin ]]; then
   bindkey '^[[1;4A' select-to-buffer-start
   bindkey '^[[1;4B' select-to-buffer-end
 
+  # Option+Up / Option+Down — jump to buffer boundaries without selection
+  bindkey '^[[1;5A' jump-to-buffer-start
+  bindkey '^[[1;5B' jump-to-buffer-end
+
   # Option+Shift+Left / Option+Shift+Right — select by word
   bindkey '^[[1;4D' select-backward-word
   bindkey '^[[1;4C' select-forward-word
