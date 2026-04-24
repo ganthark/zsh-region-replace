@@ -109,7 +109,7 @@ bindkey 'YOUR_SEQUENCE' select-forward-char   # example
 
 ## Known Limitations
 
-**Visual line wrap highlight rendering** — when a selection spans a line that wraps at the terminal column boundary, ZLE's region highlight may not colour the wrapped portion correctly. The selection is functionally correct (deleting it removes the right characters). I am unsure I can solve this issue so feel free to send your suggestions!
+**Visual line wrap highlight rendering** — when a selection spans a line that wraps at the terminal column boundary, ZLE's region highlight may not colour the wrapped portion correctly in WSL. The selection is functionally correct (deleting it removes the right characters). I am unsure I can solve this issue so feel free to send your suggestions!
 
 **Cmd+C / Cmd+X / Cmd+V on macOS** — the `Cmd` key is intercepted by the OS and terminal before reaching ZLE, so these keystrokes cannot be bound by the plugin. `Ctrl+Y` (copy), `Ctrl+X` (cut), and `Ctrl+V` (paste) are provided as alternatives and work on all platforms. `Cmd+V` paste still works as the terminal maps it to ZLE's `quoted-insert`.
 
